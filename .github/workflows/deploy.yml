@@ -40,9 +40,10 @@ jobs:
       - name: Build and push image 
         working-directory: spring-petclinic 
         run: |
-          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}
-          docker build -t $IMAGE_URI .
-          docker push $IMAGE_URI 
+          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${AWS_REGION}.amazonaws.com
+          docker build -t ${ECR_REPO}:$IMAGE_TAG .
+          docker tag $ECR_REPO:$IMAGE_URI $IMAGE_URI/${ECR_REPO}:$IMAGE_TAG
+          docker push $IMAGE_URI/${ECR_REPO}:$IMAGE_TAG 
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
 
